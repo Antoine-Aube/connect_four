@@ -5,4 +5,8 @@ class Turn
     @player = player
     @board = board
   end
+
+  def set_cell(index_1, index_2)
+    @board.board_grid[index_1][index_2].set_state(@player.piece)
+  end
 end

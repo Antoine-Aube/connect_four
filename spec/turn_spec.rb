@@ -31,9 +31,9 @@ RSpec.describe Turn do
       turn = Turn.new(player, board)
       
       expect(board.board_grid[0][0].state).to eq(".")
-      board.set_cell(0, 0)
-
-      expect(board.board_grid[0][0].state).to eq("X")
+      turn.set_cell(0, 0)
+      require 'pry';binding.pry
+      expect(board.board_grid[0][0].state).to eq("x")
     end
   end
 end
