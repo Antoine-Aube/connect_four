@@ -12,6 +12,7 @@ RSpec.describe Board do
       board = Board.new
 
       expect(board.board_grid).to be_a Hash
+      require 'pry';binding.pry
     end
   end
 end
