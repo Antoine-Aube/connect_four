@@ -8,22 +8,22 @@ class Board
   end
 
   def generate_board
-    board = {
-      row_1: {a: Cell.new, b: Cell.new, c: Cell.new, d: Cell.new, e: Cell.new, f: Cell.new, g: Cell.new},
-      row_2: {a: Cell.new, b: Cell.new, c: Cell.new, d: Cell.new, e: Cell.new, f: Cell.new, g: Cell.new},
-      row_3: {a: Cell.new, b: Cell.new, c: Cell.new, d: Cell.new, e: Cell.new, f: Cell.new, g: Cell.new},
-      row_4: {a: Cell.new, b: Cell.new, c: Cell.new, d: Cell.new, e: Cell.new, f: Cell.new, g: Cell.new},
-      row_5: {a: Cell.new, b: Cell.new, c: Cell.new, d: Cell.new, e: Cell.new, f: Cell.new, g: Cell.new},
-      row_6: {a: Cell.new, b: Cell.new, c: Cell.new, d: Cell.new, e: Cell.new, f: Cell.new, g: Cell.new}
-    }
+    board = [
+      [Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new],
+      [Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new],
+      [Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new],
+      [Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new],
+      [Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new],
+      [Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new, Cell.new]
+  ]
   end
 
   
   def render_board
     puts "ABCDEFG"
     
-    @board_grid.each_value do |row|
-      row.each_value do |cell|
+    @board_grid.each do |row|
+      row.each do |cell|
         print "."
       end
       puts "\n"
