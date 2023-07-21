@@ -24,7 +24,7 @@ class Board
     
     @board_grid.each do |row|
       row.each do |cell|
-        print "."
+        print cell.state
       end
       puts "\n"
     end
