@@ -9,14 +9,14 @@ RSpec.describe Turn do
     end
 
     it "has a player" do
-      player = "Waiting for Player"
+      player = Player.new
       turn = Turn.new(player, "Board")
 
       expect(turn.player).to eq(player)
     end
 
     it "has a board" do
-      player = "Waiting for Player"
+      player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
 
@@ -26,7 +26,7 @@ RSpec.describe Turn do
 
   describe "#set_cell" do
     it "tells a cell to change state" do
-      player = "Waiting for Player"
+      player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
       
