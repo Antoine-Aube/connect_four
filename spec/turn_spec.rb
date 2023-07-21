@@ -23,4 +23,17 @@ RSpec.describe Turn do
       expect(turn.board).to eq(board)
     end
   end
+
+  describe "#set_cell" do
+    it "tells a cell to change state" do
+      player = "Waiting for Player"
+      board = Board.new
+      turn = Turn.new(player, board)
+      
+      expect(board.board_grid[0][0].state).to eq(".")
+      board.set_cell(0, 0)
+
+      expect(board.board_grid[0][0].state).to eq("X")
+    end
+  end
 end
