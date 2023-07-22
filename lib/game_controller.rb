@@ -1,11 +1,13 @@
 require_relative 'board'
 require_relative 'turn'
 require_relative 'player'
+require_relative 'computer'
 
 class GameController
   def start_game
     board = Board.new
     player = Player.new
+    computer = Computer.new
     puts "Welcome to Connect 4!!!"
     puts "Enter P to start a game, or Q to quit."
     user_input = gets.chomp.downcase
@@ -25,8 +27,13 @@ class GameController
     # made their piece an O or something :)
     turn_counter = 1
     while turn_counter < 20
-      turn = Turn.new(player, board)
-      turn.get_move
+      if turn_counter % 2 == 0
+        turn = Turn.new(computer, board)
+        turn.get_computer_move
+      else
+        turn = Turn.new(player, board)
+        turn.get_move
+      end
       board.render_board
       turn_counter += 1
     end

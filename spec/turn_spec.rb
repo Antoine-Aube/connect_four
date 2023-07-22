@@ -22,6 +22,14 @@ RSpec.describe Turn do
 
       expect(turn.board).to eq(board)
     end
+
+    it "has columns that is an array a-g" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      expect(turn.columns).to eq(["a", "b", "c", "d", "e", "f", "g"])
+    end
   end
 
   describe "#set_cell" do
@@ -71,9 +79,45 @@ RSpec.describe Turn do
 
       columns = ["a", "b", "c", "d", "e", "f", "g"]
       board.board_grid[0][0].set_state("x")
-
+      
       expect(turn.column_is_full?("a", columns)).to be true
       expect(turn.column_is_full?("b", columns)).to be false
     end
   end
+  
+  describe "#validate_computer move" do 
+    it "validates if computers random move" do 
+      computer = Computer.new
+      board = Board.new
+      turn = Turn.new(computer, board)
+      columns = ["a", "b", "c", "d", "e", "f", "g"]
+      
+      
+      expect(turn.validate_cpu_move("b", columns)).to eq("b")
+    end
+    
+    it "returns invalid if the column is full" do 
+      computer = Computer.new
+      board = Board.new
+      turn = Turn.new(computer, board)
+      columns = ["a", "b", "c", "d", "e", "f", "g"]
+      
+      board.board_grid[0][0].set_state("x")
+      expect(turn.validate_cpu_move("a", columns)).to eq("invalid")
+    end
+  end 
+  
+  describe "#find_lowest_cell_in_column" do 
+    it "can find the lowest cell and set_player piece" do 
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+      move = "a"
+      
+      # require 'pry';binding.pry
+      turn.find_lowest_cell_in_column(move, turn.columns)
+      expect(board.board_grid[4][0].state).to eq(".")
+      expect(board.board_grid[5][0].state).to eq("x")
+    end
+  end 
 end
