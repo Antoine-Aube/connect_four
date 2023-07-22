@@ -11,8 +11,8 @@ RSpec.describe Board do
     it "it has a board grid" do 
       board = Board.new
 
-      expect(board.board_grid).to be_a Hash
-      require 'pry';binding.pry
+      expect(board.board_grid).to be_a Array 
+      # require 'pry';binding.pry
     end
   end
 end
