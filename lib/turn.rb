@@ -6,6 +6,24 @@ class Turn
     @board = board
   end
 
+  def get_move
+    move = gets.chomp.downcase
+    columns = ["a", "b", "c", "d", "e", "f", "g"]
+    while !columns.include?(move)
+      puts "Oops, that's an invalid move. Please select column A-G!"
+      move = gets.chomp.downcase
+    end
+    @board.board_grid.reverse.each do |row|
+      # require 'pry';binding.pry
+      if row[(columns.index(move))].state == "."
+        index_1 = @board.board_grid.index(row)
+        index_2 = columns.index(move)
+        set_cell(index_1, index_2)
+        break
+      end
+    end
+  end
+
   def set_cell(index_1, index_2)
     @board.board_grid[index_1][index_2].set_state(@player.piece)
   end
