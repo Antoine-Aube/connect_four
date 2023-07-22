@@ -117,6 +117,7 @@ RSpec.describe Turn do
       # require 'pry';binding.pry
       turn.find_lowest_cell_in_column(move, turn.columns)
       expect(board.board_grid[4][0].state).to eq(".")
+      expect(board.board_grid[5][0].state).to eq("x")
     end
   end 
 end
