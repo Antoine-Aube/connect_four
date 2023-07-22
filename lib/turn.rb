@@ -18,7 +18,7 @@ class Turn
   end
 
   def validate_move(move, valid_columns)
-    while !valid_columns.include?(move)
+    while !valid_columns.include?(move) || column_is_full?(move, valid_columns)
       puts "Oops, that's an invalid move. Please select column A-G!"
       move = gets.chomp.downcase
     end

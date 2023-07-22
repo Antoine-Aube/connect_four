@@ -38,12 +38,25 @@ RSpec.describe Turn do
   end
 
   describe "#validate_move" do
+    # can't really test sad paths on these as they would repeat user inputs
     it "validates the player move against valid columns" do
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
 
       columns = ["a", "b", "c", "d", "e", "f", "g"]
+      
+      expect(turn.validate_move("a", columns)).to eq("a")
+      expect(turn.validate_move("g", columns)).to eq("g")
+    end
+
+    it "only validates if the column is not full" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      columns = ["a", "b", "c", "d", "e", "f", "g"]
+      board.board_grid[0][1].set_state('x')
       
       expect(turn.validate_move("a", columns)).to eq("a")
       expect(turn.validate_move("g", columns)).to eq("g")
