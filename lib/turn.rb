@@ -50,12 +50,6 @@ class Turn
     @board.board_grid[0][column_index].state != "."
   end
 
-  def board_is_full? 
-    @board.board_grid[0].none? do |cell|
-      cell.state == "."
-    end
-  end
-
   def set_cell(index_1, index_2)
     @board.board_grid[index_1][index_2].set_state(@player.piece)
   end

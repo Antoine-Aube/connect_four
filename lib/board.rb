@@ -29,4 +29,10 @@ class Board
       puts "\n"
     end
   end
+
+  def board_is_full? 
+    @board_grid[0].none? do |cell|
+      cell.state == "."
+    end
+  end
 end
