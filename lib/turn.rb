@@ -7,12 +7,8 @@ class Turn
   end
 
   def get_move
-    move = gets.chomp.downcase
     columns = ["a", "b", "c", "d", "e", "f", "g"]
-    while !columns.include?(move)
-      puts "Oops, that's an invalid move. Please select column A-G!"
-      move = gets.chomp.downcase
-    end
+    move = validate_move(gets.chomp.downcase, columns)
     @board.board_grid.reverse.each do |row|
       # require 'pry';binding.pry
       if row[(columns.index(move))].state == "."
@@ -22,6 +18,14 @@ class Turn
         break
       end
     end
+  end
+
+  def validate_move(move, valid_columns)
+    while !valid_columns.include?(move)
+      puts "Oops, that's an invalid move. Please select column A-G!"
+      move = gets.chomp.downcase
+    end
+    move
   end
 
   def set_cell(index_1, index_2)

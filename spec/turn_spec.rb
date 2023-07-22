@@ -32,8 +32,21 @@ RSpec.describe Turn do
       
       expect(board.board_grid[0][0].state).to eq(".")
       turn.set_cell(0, 0)
-      require 'pry';binding.pry
+      
       expect(board.board_grid[0][0].state).to eq("x")
+    end
+  end
+
+  describe "#validate_move" do
+    it "validates the player move against valid columns" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      columns = ["a", "b", "c", "d", "e", "f", "g"]
+      
+      expect(turn.validate_move("a", columns)).to eq("a")
+      expect(turn.validate_move("g", columns)).to eq("g")
     end
   end
 end
