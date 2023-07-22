@@ -106,4 +106,17 @@ RSpec.describe Turn do
       expect(turn.validate_cpu_move("a", columns)).to eq("invalid")
     end
   end 
+  
+  describe "#find_lowest_cell_in_column" do 
+    it "can find the lowest cell and set_player piece" do 
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+      move = "a"
+      
+      # require 'pry';binding.pry
+      turn.find_lowest_cell_in_column(move, turn.columns)
+      expect(board.board_grid[4][0].state).to eq(".")
+    end
+  end 
 end
