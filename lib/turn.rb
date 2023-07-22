@@ -16,7 +16,7 @@ class Turn
       end
     end
   end
-
+  
   def validate_move(move, valid_columns)
     while !valid_columns.include?(move) || column_is_full?(move, valid_columns)
       puts "Oops, that's an invalid move, or a full column. Please select column A-G!"
@@ -24,6 +24,30 @@ class Turn
     end
     move
   end
+  
+  def get_computer_move
+    columns = ["a", "b", "c", "d", "e", "f", "g"]
+    computer_move = columns.sample
+    while validate_cpu_move(computer_move, columns) == "invalid"
+      computer_move = columns.sample
+    end
+    @board.board_grid.reverse.each do |row|
+      if row[(columns.index(computer_move))].state == "."
+        set_cell(@board.board_grid.index(row), columns.index(computer_move))
+        break
+      end
+    end
+  end
+
+  def validate_cpu_move(move, valid_columns)
+    if column_is_full?(move, valid_columns)
+      return "invalid"
+    else 
+      move
+    end
+  end
+
+  
 
   def column_is_full?(move, columns)
     column_index = columns.index(move)

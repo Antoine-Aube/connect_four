@@ -71,9 +71,31 @@ RSpec.describe Turn do
 
       columns = ["a", "b", "c", "d", "e", "f", "g"]
       board.board_grid[0][0].set_state("x")
-
+      
       expect(turn.column_is_full?("a", columns)).to be true
       expect(turn.column_is_full?("b", columns)).to be false
     end
   end
+  
+  describe "#validate_computer move" do 
+    it "validates if computers random move" do 
+      computer = Computer.new
+      board = Board.new
+      turn = Turn.new(computer, board)
+      columns = ["a", "b", "c", "d", "e", "f", "g"]
+      
+      
+      expect(turn.validate_cpu_move("b", columns)).to eq("b")
+    end
+    
+    it "returns invalid if the column is full" do 
+      computer = Computer.new
+      board = Board.new
+      turn = Turn.new(computer, board)
+      columns = ["a", "b", "c", "d", "e", "f", "g"]
+      
+      board.board_grid[0][0].set_state("x")
+      expect(turn.validate_cpu_move("a", columns)).to eq("invalid")
+    end
+  end 
 end
