@@ -119,5 +119,5 @@ RSpec.describe Turn do
       expect(board.board_grid[4][0].state).to eq(".")
       expect(board.board_grid[5][0].state).to eq("x")
     end
-  end 
+  end
 end
