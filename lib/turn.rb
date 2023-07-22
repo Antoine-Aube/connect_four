@@ -10,11 +10,8 @@ class Turn
     columns = ["a", "b", "c", "d", "e", "f", "g"]
     move = validate_move(gets.chomp.downcase, columns)
     @board.board_grid.reverse.each do |row|
-      # require 'pry';binding.pry
       if row[(columns.index(move))].state == "."
-        index_1 = @board.board_grid.index(row)
-        index_2 = columns.index(move)
-        set_cell(index_1, index_2)
+        set_cell(@board.board_grid.index(row), columns.index(move))
         break
       end
     end
@@ -26,6 +23,11 @@ class Turn
       move = gets.chomp.downcase
     end
     move
+  end
+
+  def column_is_full?(move, columns)
+    column_index = columns.index(move)
+    @board.board_grid[0][column_index].state != "."
   end
 
   def set_cell(index_1, index_2)
