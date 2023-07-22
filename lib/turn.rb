@@ -9,12 +9,6 @@ class Turn
 
   def get_move
     move = validate_move(gets.chomp.downcase, @columns)
-    # @board.board_grid.reverse.each do |row|
-    #   if row[(@columns.index(move))].state == "."
-    #     set_cell(@board.board_grid.index(row), @columns.index(move))
-    #     break
-    #   end
-    # end
     find_lowest_cell_in_column(move, @columns)
   end
   
@@ -31,12 +25,6 @@ class Turn
     while validate_cpu_move(computer_move, columns) == "invalid"
       computer_move = @columns.sample
     end
-    # @board.board_grid.reverse.each do |row|
-    #   if row[(@columns.index(computer_move))].state == "."
-    #     set_cell(@board.board_grid.index(row), @columns.index(computer_move))
-    #     break
-    #   end
-    # end
     find_lowest_cell_in_column(computer_move, @columns)
   end
 
