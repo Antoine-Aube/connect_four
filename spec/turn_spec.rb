@@ -22,6 +22,14 @@ RSpec.describe Turn do
 
       expect(turn.board).to eq(board)
     end
+
+    it "has columns that is an array a-g" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      expect(turn.columns).to eq(["a", "b", "c", "d", "e", "f", "g"])
+    end
   end
 
   describe "#set_cell" do

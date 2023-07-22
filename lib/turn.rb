@@ -1,17 +1,18 @@
 class Turn
-  attr_reader :player, :board
+  attr_reader :player, :board, :columns
 
   def initialize(player, board)
     @player = player
     @board = board
+    @columns = ["a", "b", "c", "d", "e", "f", "g"]
   end
 
   def get_move
-    columns = ["a", "b", "c", "d", "e", "f", "g"]
-    move = validate_move(gets.chomp.downcase, columns)
+    # columns = ["a", "b", "c", "d", "e", "f", "g"]
+    move = validate_move(gets.chomp.downcase, @columns)
     @board.board_grid.reverse.each do |row|
-      if row[(columns.index(move))].state == "."
-        set_cell(@board.board_grid.index(row), columns.index(move))
+      if row[(@columns.index(move))].state == "."
+        set_cell(@board.board_grid.index(row), @columns.index(move))
         break
       end
     end
@@ -26,14 +27,14 @@ class Turn
   end
   
   def get_computer_move
-    columns = ["a", "b", "c", "d", "e", "f", "g"]
-    computer_move = columns.sample
+    # columns = ["a", "b", "c", "d", "e", "f", "g"]
+    computer_move = @columns.sample
     while validate_cpu_move(computer_move, columns) == "invalid"
-      computer_move = columns.sample
+      computer_move = @columns.sample
     end
     @board.board_grid.reverse.each do |row|
-      if row[(columns.index(computer_move))].state == "."
-        set_cell(@board.board_grid.index(row), columns.index(computer_move))
+      if row[(@columns.index(computer_move))].state == "."
+        set_cell(@board.board_grid.index(row), @columns.index(computer_move))
         break
       end
     end
@@ -50,7 +51,7 @@ class Turn
   
 
   def column_is_full?(move, columns)
-    column_index = columns.index(move)
+    column_index = @columns.index(move)
     @board.board_grid[0][column_index].state != "."
   end
 
