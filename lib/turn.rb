@@ -40,6 +40,7 @@ class Turn
     @board.board_grid.reverse.each do |row|
       if row[(valid_columns.index(move))].state == "."
         set_cell(@board.board_grid.index(row), valid_columns.index(move))
+        check_horizontal_win(@board.board_grid.index(row), valid_columns.index(move))
         break
       end
     end
