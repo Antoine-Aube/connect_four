@@ -120,4 +120,23 @@ RSpec.describe Turn do
       expect(board.board_grid[5][0].state).to eq("x")
     end
   end
+
+  describe "#check_horizontal_win" do
+    it "sets the current player as the winner if 4 pieces exist in a row horizontally" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      turn.check_horizontal_win(5, 2)
+      expect(player.winner).to be false
+
+      board.board_grid[5][0].set_state("x")
+      board.board_grid[5][1].set_state("x")
+      board.board_grid[5][2].set_state("x")
+      board.board_grid[5][3].set_state("x")
+      turn.check_horizontal_win(5, 2)
+
+      expect(player.winner).to be true
+    end
+  end
 end
