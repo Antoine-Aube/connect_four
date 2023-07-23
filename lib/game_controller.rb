@@ -32,10 +32,12 @@ class GameController
         turn = Turn.new(computer, board)
         turn.get_move
         turn.set_cell
+        turn.check_win_conditions
       else
         turn = Turn.new(player, board)
         turn.get_move
         turn.set_cell
+        turn.check_win_conditions
       end
       board.render_board
       turn_counter += 1

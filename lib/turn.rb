@@ -51,58 +51,52 @@ class Turn
   end
   
   def set_cell
-    find_lowest_cell_in_column.set_state(@player.piece)
+    index_array = find_lowest_cell_in_column
+    @board.board_grid[index_array[0]][index_array[1]].set_state(@player.piece)
+    # check_horizontal_win(index_array[0], index_array[1])
+    # check_vertical_win(index_array[0], index_array[1])
   end
   
   def find_lowest_cell_in_column
-    lowest_cell = nil
+    index_1 = nil
+    index_2 = nil
     @board.board_grid.reverse.each do |row|
       if row[(@columns.index(@move))].state == "."
-        lowest_cell = @board.board_grid[@board.board_grid.index(row)][@columns.index(@move)]
+        index_1 = @board.board_grid.index(row)
+        index_2 = @columns.index(@move)
         break
       end
     end
-    lowest_cell
+    [index_1, index_2]
   end
 
-  def check_horizontal_win(index_1, index_2)
-    current_pos = @board.board_grid[index_1][index_2]
-    current_index = 0 + index_2
-    pieces_in_a_row = 1
-    until current_index < 0 || (current_pos.state != @player.piece)
-      pieces_in_a_row += 1 if current_index < index_2
-      current_index -= 1
-      current_pos = @board.board_grid[index_1][current_index]
-    end
-    current_pos = @board.board_grid[index_1][index_2]
-    current_index = 0 + index_2
-    until current_index > 6 || (current_pos.state != @player.piece)
-      # require 'pry';binding.pry
-      pieces_in_a_row += 1 if current_index > index_2
-      current_index += 1
-      current_pos = @board.board_grid[index_1][current_index]
-      # require 'pry';binding.pry
-    end
-    @player.winner = true if pieces_in_a_row >= 4
+  def check_win_conditions
+    check_horizontal_win
+    check_vertical_win
   end
 
-  def check_vertical_win(index_1, index_2)
-    current_pos = @board.board_grid[index_1][index_2]
-    current_index = 0 + index_1
-    pieces_in_a_row = 1
-    until current_index < 0 || (current_pos.state != @player.piece)
-      pieces_in_a_row += 1 if current_index < index_1
-      current_index -= 1
-      current_pos = @board.board_grid[current_index][index_2]
+  def get_board_as_states
+    @board.board_grid.map do |row|
+      row.map do |cell|
+        cell.state
+      end
     end
-    current_pos = board.board_grid[index_1][index_2]
-    current_index = 0 + index_1
-    until current_index > 5 || (current_pos.state != @player.piece)
-      pieces_in_a_row += 1 if current_index > index_1
-      current_index += 1
-      current_pos = @board.board_grid[current_index][index_2] if current_index < 6
-      # require 'pry';binding.pry
+  end
+  
+  def check_horizontal_win
+    winning_string = ""
+    4.times { winning_string += "#{@player.piece}" }
+    board_as_states = get_board_as_states
+    board_as_states.each do |row|
+      @player.winner = true if row.join.include?(winning_string)
     end
-    @player.winner = true if pieces_in_a_row >= 4
+  end
+
+  def check_vertical_win
+    winning_string = ""
+    4.times { winning_string += "#{@player.piece}" }
+    board_as_states = get_board_as_states
+    column_as_array = board_as_states.map { |row| row[@columns.index(@move)] }
+    @player.winner = true if column_as_array.join.include?(winning_string)
   end
 end
