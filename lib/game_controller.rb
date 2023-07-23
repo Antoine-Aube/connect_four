@@ -26,8 +26,7 @@ class GameController
     # funny enough we could actually make this work with a second player if we just
     # made their piece an O or something :)
     turn_counter = 1
-    while !board.board_is_full?
-
+    while !board.board_is_full? && !player.winner && !computer.winner
       if turn_counter % 2 == 0
         turn = Turn.new(computer, board)
         turn.get_computer_move
@@ -38,7 +37,11 @@ class GameController
       board.render_board
       turn_counter += 1
     end
-    if board.board_is_full?
+    if player.winner
+      puts "Player wins!"
+    elsif computer.winner
+      puts "Computer wins!"
+    elsif board.board_is_full?
       puts "Draw!"
     end
   end

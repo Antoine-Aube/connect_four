@@ -40,6 +40,7 @@ class Turn
     @board.board_grid.reverse.each do |row|
       if row[(valid_columns.index(move))].state == "."
         set_cell(@board.board_grid.index(row), valid_columns.index(move))
+        check_horizontal_win(@board.board_grid.index(row), valid_columns.index(move))
         break
       end
     end
@@ -52,5 +53,24 @@ class Turn
 
   def set_cell(index_1, index_2)
     @board.board_grid[index_1][index_2].set_state(@player.piece)
+  end
+
+  def check_horizontal_win(index_1, index_2)
+    current_pos = @board.board_grid[index_1][index_2]
+    current_index = 0 + index_2
+    pieces_in_a_row = 1
+    until current_index < 0 || (current_pos.state != @player.piece)
+      pieces_in_a_row += 1 if current_index < index_2
+      current_index -= 1
+      current_pos = @board.board_grid[index_1][current_index]
+    end
+    current_pos = @board.board_grid[index_1][index_2]
+    current_index = 0 + index_2
+    until current_index > 6 || (current_pos.state != @player.piece)
+      pieces_in_a_row += 1 if current_index > index_2
+      current_index += 1
+      current_pos = @board.board_grid[index_1][current_index]
+    end
+    @player.winner = true if pieces_in_a_row >= 4
   end
 end
