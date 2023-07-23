@@ -2,7 +2,7 @@ class Turn
   attr_reader :player,
               :board,
               :columns
-              
+
   attr_accessor :move
 
   def initialize(player, board)
@@ -63,5 +63,46 @@ class Turn
       end
     end
     lowest_cell
+  end
+
+  def check_horizontal_win(index_1, index_2)
+    current_pos = @board.board_grid[index_1][index_2]
+    current_index = 0 + index_2
+    pieces_in_a_row = 1
+    until current_index < 0 || (current_pos.state != @player.piece)
+      pieces_in_a_row += 1 if current_index < index_2
+      current_index -= 1
+      current_pos = @board.board_grid[index_1][current_index]
+    end
+    current_pos = @board.board_grid[index_1][index_2]
+    current_index = 0 + index_2
+    until current_index > 6 || (current_pos.state != @player.piece)
+      # require 'pry';binding.pry
+      pieces_in_a_row += 1 if current_index > index_2
+      current_index += 1
+      current_pos = @board.board_grid[index_1][current_index]
+      # require 'pry';binding.pry
+    end
+    @player.winner = true if pieces_in_a_row >= 4
+  end
+
+  def check_vertical_win(index_1, index_2)
+    current_pos = @board.board_grid[index_1][index_2]
+    current_index = 0 + index_1
+    pieces_in_a_row = 1
+    until current_index < 0 || (current_pos.state != @player.piece)
+      pieces_in_a_row += 1 if current_index < index_1
+      current_index -= 1
+      current_pos = @board.board_grid[current_index][index_2]
+    end
+    current_pos = board.board_grid[index_1][index_2]
+    current_index = 0 + index_1
+    until current_index > 5 || (current_pos.state != @player.piece)
+      pieces_in_a_row += 1 if current_index > index_1
+      current_index += 1
+      current_pos = @board.board_grid[current_index][index_2] if current_index < 6
+      # require 'pry';binding.pry
+    end
+    @player.winner = true if pieces_in_a_row >= 4
   end
 end

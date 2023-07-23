@@ -116,4 +116,43 @@ RSpec.describe Turn do
       expect(turn.find_lowest_cell_in_column).to eq(board.board_grid[4][1])
     end
   end
+
+  describe "#check_horizontal_win" do
+    it "sets the current player as the winner if 4 pieces exist in a row horizontally" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      turn.check_horizontal_win(5, 2)
+      expect(player.winner).to be false
+
+      board.board_grid[5][0].set_state("x")
+      board.board_grid[5][1].set_state("x")
+      board.board_grid[5][2].set_state("x")
+      board.board_grid[5][3].set_state("x")
+      turn.check_horizontal_win(5, 2)
+
+      expect(player.winner).to be true
+    end
+  end
+
+  describe "#check_vertical_win" do
+    it "sets the current player as the winner if 4 pieces exist in a row vertically" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      turn.check_vertical_win(1, 1)
+      expect(player.winner).to be false
+
+      board.board_grid[2][1].set_state("x")
+      board.board_grid[3][1].set_state("x")
+      board.board_grid[4][1].set_state("x")
+      board.board_grid[5][1].set_state("x")
+      # require 'pry';binding.pry
+      turn.check_vertical_win(2, 1)
+    
+      expect(player.winner).to be true
+    end
+  end
 end
