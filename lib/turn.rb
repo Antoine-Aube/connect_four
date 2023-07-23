@@ -1,99 +1,102 @@
 class Turn
-  attr_reader :player, :board, :columns
+  attr_reader :player,
+              :board,
+              :columns
+
+  attr_accessor :move
 
   def initialize(player, board)
     @player = player
     @board = board
     @columns = ["a", "b", "c", "d", "e", "f", "g"]
+    @move = nil
   end
 
   def get_move
-    move = validate_move(gets.chomp.downcase, @columns)
-    find_lowest_cell_in_column(move, @columns)
+    if @player.instance_of?(Player)
+      move = validate_player_move(gets.chomp.downcase)
+    else
+      move = get_computer_move
+    end
+    @move = move
   end
   
-  def validate_move(move, valid_columns)
-    while !valid_columns.include?(move) || column_is_full?(move, valid_columns)
+  def validate_player_move(move)
+    while !@columns.include?(move) || column_is_full?(move)
       puts "Oops, that's an invalid move, or a full column. Please select column A-G!"
       move = gets.chomp.downcase
     end
     move
   end
+
+  def column_is_full?(move)
+    column_index = @columns.index(move)
+    @board.board_grid[0][column_index].state != "."
+  end
   
   def get_computer_move
     computer_move = @columns.sample
-    while validate_cpu_move(computer_move, columns) == "invalid"
+    while validate_cpu_move(computer_move) == "invalid"
       computer_move = @columns.sample
     end
-    find_lowest_cell_in_column(computer_move, @columns)
+    computer_move
   end
 
-  def validate_cpu_move(move, valid_columns)
-    if column_is_full?(move, valid_columns)
+  def validate_cpu_move(move)
+    if column_is_full?(move)
       return "invalid"
     else 
       move
     end
   end
-
-  def find_lowest_cell_in_column(move, valid_columns)
+  
+  def set_cell
+    index_array = find_lowest_cell_in_column
+    @board.board_grid[index_array[0]][index_array[1]].set_state(@player.piece)
+    # check_horizontal_win(index_array[0], index_array[1])
+    # check_vertical_win(index_array[0], index_array[1])
+  end
+  
+  def find_lowest_cell_in_column
+    index_1 = nil
+    index_2 = nil
     @board.board_grid.reverse.each do |row|
-      if row[(valid_columns.index(move))].state == "."
-        set_cell(@board.board_grid.index(row), valid_columns.index(move))
-        check_horizontal_win(@board.board_grid.index(row), valid_columns.index(move))
-        check_vertical_win(@board.board_grid.index(row), valid_columns.index(move))
-        break 
+      if row[(@columns.index(@move))].state == "."
+        index_1 = @board.board_grid.index(row)
+        index_2 = @columns.index(@move)
+        break
+      end
+    end
+    [index_1, index_2]
+  end
+
+  def check_win_conditions
+    check_horizontal_win
+    check_vertical_win
+  end
+
+  def get_board_as_states
+    @board.board_grid.map do |row|
+      row.map do |cell|
+        cell.state
       end
     end
   end
-
-  def column_is_full?(move, columns)
-    column_index = @columns.index(move)
-    @board.board_grid[0][column_index].state != "."
+  
+  def check_horizontal_win
+    winning_string = ""
+    4.times { winning_string += "#{@player.piece}" }
+    board_as_states = get_board_as_states
+    board_as_states.each do |row|
+      @player.winner = true if row.join.include?(winning_string)
+    end
   end
 
-  def set_cell(index_1, index_2)
-    @board.board_grid[index_1][index_2].set_state(@player.piece)
-  end
-
-  def check_horizontal_win(index_1, index_2)
-    current_pos = @board.board_grid[index_1][index_2]
-    current_index = 0 + index_2
-    pieces_in_a_row = 1
-    until current_index < 0 || (current_pos.state != @player.piece)
-      pieces_in_a_row += 1 if current_index < index_2
-      current_index -= 1
-      current_pos = @board.board_grid[index_1][current_index]
-    end
-    current_pos = @board.board_grid[index_1][index_2]
-    current_index = 0 + index_2
-    until current_index > 6 || (current_pos.state != @player.piece)
-      # require 'pry';binding.pry
-      pieces_in_a_row += 1 if current_index > index_2
-      current_index += 1
-      current_pos = @board.board_grid[index_1][current_index]
-      # require 'pry';binding.pry
-    end
-    @player.winner = true if pieces_in_a_row >= 4
-  end
-
-  def check_vertical_win(index_1, index_2)
-    current_pos = @board.board_grid[index_1][index_2]
-    current_index = 0 + index_1
-    pieces_in_a_row = 1
-    until current_index < 0 || (current_pos.state != @player.piece)
-      pieces_in_a_row += 1 if current_index < index_1
-      current_index -= 1
-      current_pos = @board.board_grid[current_index][index_2]
-    end
-    current_pos = board.board_grid[index_1][index_2]
-    current_index = 0 + index_1
-    until current_index > 5 || (current_pos.state != @player.piece)
-      pieces_in_a_row += 1 if current_index > index_1
-      current_index += 1
-      current_pos = @board.board_grid[current_index][index_2] if current_index < 6
-      # require 'pry';binding.pry
-    end
-    @player.winner = true if pieces_in_a_row >= 4
+  def check_vertical_win
+    winning_string = ""
+    4.times { winning_string += "#{@player.piece}" }
+    board_as_states = get_board_as_states
+    column_as_array = board_as_states.map { |row| row[@columns.index(@move)] }
+    @player.winner = true if column_as_array.join.include?(winning_string)
   end
 end
