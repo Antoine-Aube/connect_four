@@ -108,12 +108,12 @@ RSpec.describe Turn do
       turn = Turn.new(player, board)
 
       turn.move = "a"
-      expect(turn.find_lowest_cell_in_column).to eq(board.board_grid[5][0])
+      expect(turn.find_lowest_cell_in_column).to eq([5, 0])
 
       turn.move = "b"
       board.board_grid[5][1].set_state("x")
       
-      expect(turn.find_lowest_cell_in_column).to eq(board.board_grid[4][1])
+      expect(turn.find_lowest_cell_in_column).to eq([4, 1])
     end
   end
 
@@ -123,14 +123,14 @@ RSpec.describe Turn do
       board = Board.new
       turn = Turn.new(player, board)
 
-      turn.check_horizontal_win(5, 2)
+      turn.check_horizontal_win
       expect(player.winner).to be false
 
       board.board_grid[5][0].set_state("x")
       board.board_grid[5][1].set_state("x")
       board.board_grid[5][2].set_state("x")
       board.board_grid[5][3].set_state("x")
-      turn.check_horizontal_win(5, 2)
+      turn.check_horizontal_win
 
       expect(player.winner).to be true
     end
@@ -141,17 +141,51 @@ RSpec.describe Turn do
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
+      turn.move = "b"
 
-      turn.check_vertical_win(1, 1)
+      turn.check_vertical_win
       expect(player.winner).to be false
 
       board.board_grid[2][1].set_state("x")
       board.board_grid[3][1].set_state("x")
       board.board_grid[4][1].set_state("x")
       board.board_grid[5][1].set_state("x")
-      # require 'pry';binding.pry
-      turn.check_vertical_win(2, 1)
+      turn.check_vertical_win
     
+      expect(player.winner).to be true
+    end
+  end
+
+  describe "#check_win_conditions" do
+    it "checks for horizontal wins" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+      turn.move = "b"
+
+      board.board_grid[4][0].set_state("x")
+      board.board_grid[4][1].set_state("x")
+      board.board_grid[4][2].set_state("x")
+      board.board_grid[4][3].set_state("x")
+
+      turn.check_win_conditions
+
+      expect(player.winner).to be true
+    end
+
+    it "checks for vertical wins" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+      turn.move = "c"
+
+      board.board_grid[2][2].set_state("x")
+      board.board_grid[3][2].set_state("x")
+      board.board_grid[4][2].set_state("x")
+      board.board_grid[5][2].set_state("x")
+
+      turn.check_win_conditions
+
       expect(player.winner).to be true
     end
   end
