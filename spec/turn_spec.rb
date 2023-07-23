@@ -189,4 +189,25 @@ RSpec.describe Turn do
       expect(player.winner).to be true
     end
   end
+
+  describe "#board_as_state" do
+    it "get the current board with all cell states" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      expect(turn.get_board_as_states).to all be_an Array
+      expect(turn.get_board_as_states[0]).to all eq(".")
+    end
+
+    it "accounts for cells not in their default state" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      board.board_grid[2][2].set_state("x")
+
+      expect(turn.get_board_as_states[2]).to include('x')
+    end
+  end
 end
