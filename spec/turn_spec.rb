@@ -156,6 +156,28 @@ RSpec.describe Turn do
     end
   end
 
+  describe "#check_diagonal_win" do 
+    it "checks for horizontal wins" do 
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+      turn.move = "c" #may not need this
+      
+      turn.check_diagonal_win
+
+      expect(player.winner).to be false
+
+      board.board_grid[0][0].set_state("x")
+      board.board_grid[1][1].set_state("x")
+      board.board_grid[2][2].set_state("x")
+      board.board_grid[3][3].set_state("x")
+
+      turn.check_diagonal_win
+
+      expect(player.winner).to be true
+    end
+  end
+
   describe "#check_win_conditions" do
     it "checks for horizontal wins" do
       player = Player.new
