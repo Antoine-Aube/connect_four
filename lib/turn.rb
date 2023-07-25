@@ -53,8 +53,6 @@ class Turn
   def set_cell
     index_array = find_lowest_cell_in_column
     @board.board_grid[index_array[0]][index_array[1]].set_state(@player.piece)
-    # check_horizontal_win(index_array[0], index_array[1])
-    # check_vertical_win(index_array[0], index_array[1])
   end
   
   def find_lowest_cell_in_column

@@ -274,7 +274,6 @@ RSpec.describe Turn do
       board.board_grid[2][2].set_state("x")
 
       expect(turn.get_board_as_states[2]).to include('x')
-      # require 'pry';binxding.pry
     end
   end
 end
