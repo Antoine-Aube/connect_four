@@ -157,7 +157,7 @@ RSpec.describe Turn do
   end
 
   describe "#check_diagonal_win" do 
-    it "checks for horizontal wins" do 
+    it "checks for diagonal wins NW to SE - 4 in a row on a diag" do 
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
@@ -171,6 +171,25 @@ RSpec.describe Turn do
       board.board_grid[2][2].set_state("x")
       board.board_grid[3][3].set_state("x")
       
+      turn.check_diagonal_win
+      
+      expect(player.winner).to be true
+    end
+
+    it "checks for diagonal wins SW to NE" do
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+      
+      turn.check_diagonal_win
+      
+      expect(player.winner).to be false
+
+      board.board_grid[5][0].set_state("x")
+      board.board_grid[4][1].set_state("x")
+      board.board_grid[3][2].set_state("x")
+      board.board_grid[2][3].set_state("x")
+
       turn.check_diagonal_win
       
       expect(player.winner).to be true

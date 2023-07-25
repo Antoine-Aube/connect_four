@@ -118,10 +118,17 @@ class Turn
     winning_string = ""
     4.times { winning_string += "#{@player.piece}" }
     board_states = get_board_as_states
+    board_rotated = board_states.transpose.reverse
     diag_offset_columns(board_states, (1..3)).each do |array|
       @player.winner = true if array.join.include?(winning_string)
     end
     diag_offset_rows(board_states, (0..2)).each do |array|
+      @player.winner = true if array.join.include?(winning_string)
+    end
+    diag_offset_columns(board_rotated, (0..2)).each do |array|
+      @player.winner = true if array.join.include?(winning_string)
+    end
+    diag_offset_rows(board_rotated, (1..3)).each do |array|
       @player.winner = true if array.join.include?(winning_string)
     end
   end
