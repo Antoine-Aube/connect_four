@@ -33,6 +33,7 @@ class GameController
       user_input = gets.chomp.downcase
     end
     if user_input == "p"
+      puts
       board.render_board
     else
       exit()
