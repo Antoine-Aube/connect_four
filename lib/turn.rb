@@ -14,8 +14,9 @@ class Turn
 
   def get_move
     if @player.instance_of?(Player)
+      puts "Place a piece in column A-G"
       move = validate_player_move(gets.chomp.downcase)
-    else
+    elsif @player.instance_of(PlayerTwo)
       move = get_computer_move
     end
     @move = move
