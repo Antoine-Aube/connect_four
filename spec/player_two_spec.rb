@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 RSpec.describe PlayerTwo  do 
   before do 
     @player_2 = PlayerTwo.new
@@ -9,7 +11,7 @@ RSpec.describe PlayerTwo  do
     end
 
     it "has a piece to play that is x" do 
-      expect(@player_2.piece).to eq("x")
+      expect(@player_2.piece).to eq("@")
     end
 
   end

@@ -2,8 +2,25 @@ require_relative 'board'
 require_relative 'turn'
 require_relative 'player'
 require_relative 'computer'
+require_relative 'player_two'
 
 class GameController
+  def choose_game_type
+    puts "Welcome to Connect 4!!!"
+    puts "Enter 1 for one player and 2 for two players"
+    user_input = gets.chomp.downcase
+    while user_input != "1" && "2"
+      "Enter 1 for one player and 2 for two players"
+      user_input = gets.chomp.downcase
+    end
+    
+    if user_input == "1"
+      start_game
+    else
+      start_game_two_players
+    end
+  end
+
   def start_game
     board = Board.new
     player = Player.new
@@ -20,12 +37,6 @@ class GameController
     else
       exit()
     end
-    # currently player 1 just goes forever - we can do something like make the computer a player 2
-    # that just has random inputs, or make an entirely separate computer class, etc
-    # I'm game for whatever seems more fun!
-    # funny enough we could actually make this work with a second player if we just
-    # made their piece an O or something :)
-
     turn_counter = 1
     while !board.board_is_full? && !player.winner && !computer.winner
       if turn_counter % 2 == 0
