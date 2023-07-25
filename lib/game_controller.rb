@@ -7,10 +7,19 @@ require_relative 'player_two'
 class GameController
   def choose_game_type
     puts "Welcome to Connect 4!!!"
+    puts "Enter P to start a game, or Q to quit."
+    user_input = gets.chomp.downcase
+    while user_input != "p" && user_input != "q"
+      "Please enter P to start a game, or Q to quit."
+      user_input = gets.chomp.downcase
+    end
+    if user_input == "q"
+      exit()
+    end
     puts "Enter 1 for one player and 2 for two players"
     user_input = gets.chomp.downcase
     while user_input != "1" && user_input != "2"
-      "Enter 1 for one player and 2 for two players"
+      puts "Invalid input! Please enter 1 for one player and 2 for two players"
       user_input = gets.chomp.downcase
     end
     
@@ -25,23 +34,11 @@ class GameController
     board = Board.new
     player = Player.new
     computer = Computer.new
-    # puts "Welcome to Connect 4!!!"
     puts "Enter Player 1 name"
     player_one_name = gets.chomp
     player.get_player_name(player_one_name)
     puts 
-    puts "Enter P to start a game, or Q to quit."
-    user_input = gets.chomp.downcase
-    while user_input != "p" && user_input != "q"
-      "Please enter P to start a game, or Q to quit."
-      user_input = gets.chomp.downcase
-    end
-    if user_input == "p"
-      puts
-      board.render_board
-    else
-      exit()
-    end
+    board.render_board
     turn_counter = 1
     while !board.board_is_full? && !player.winner && !computer.winner
       if turn_counter % 2 == 0
@@ -59,11 +56,14 @@ class GameController
       turn_counter += 1
     end
     if player.winner
-      puts "#{player.name} wins!"
+      puts "#{player.name} wins! \n"
+      choose_game_type
     elsif computer.winner
-      puts "Computer wins!"
+      puts "Computer wins! \n"
+      choose_game_type
     elsif board.board_is_full?
-      puts "Draw!"
+      puts "Draw! \n"
+      choose_game_type
     end
   end
 
@@ -72,7 +72,6 @@ class GameController
     board = Board.new
     player_1 = Player.new
     player_2 = PlayerTwo.new
-    # puts "Welcome to Connect 4!!!"
     puts "Enter Player 1 name"
     player_one_name = gets.chomp
     player_1.get_player_name(player_one_name)
@@ -81,20 +80,7 @@ class GameController
     player_two_name = gets.chomp
     player_2.get_player_name(player_two_name)
     puts 
-    puts "Enter P to start a game, or Q to quit."
-    user_input = gets.chomp.downcase
-    while user_input != "p" && user_input != "q"
-      puts
-      "Please enter P to start a game, or Q to quit."
-      user_input = gets.chomp.downcase
-    end
-    if user_input == "p"
-      puts
-      puts "#{player_1.name} goes first!"
-      board.render_board
-    else
-      exit()
-    end
+    board.render_board
     turn_counter = 1
     while !board.board_is_full? && !player_1.winner && !player_2.winner
       if turn_counter % 2 == 0
@@ -114,11 +100,14 @@ class GameController
       end
     end
     if player_1.winner
-      puts "#{player_1.name} wins!"
+      puts "#{player_1.name} wins!\n"
+      choose_game_type
     elsif player_2.winner
-      puts "#{player_2.name} wins!"
+      puts "#{player_2.name} wins!\n"
+      choose_game_type
     elsif board.board_is_full?
       puts "Draw!"
+      choose_game_type
     end
   end
 end 
