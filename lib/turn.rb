@@ -73,6 +73,7 @@ class Turn
   def check_win_conditions
     check_horizontal_win
     check_vertical_win
+    check_diagonal_win
   end
 
   def get_board_as_states
@@ -98,5 +99,31 @@ class Turn
     board_as_states = get_board_as_states
     column_as_array = board_as_states.map { |row| row[@columns.index(@move)] }
     @player.winner = true if column_as_array.join.include?(winning_string)
+  end
+
+  #range is acting as way to create index positions to check index positions on our board
+  def diag_offset_columns 
+    board = get_board_as_states
+    (1..3).map do |outer_int|
+      (outer_int..(board[0].size - 1)).collect {|inner_int| board[inner_int - outer_int][inner_int]}
+    end
+  end
+
+  def diag_offset_rows
+    board = get_board_as_states
+    (0..2).map do |outer_int|
+      (outer_int..(board.size - 1)).collect {|inner_int| board[inner_int][inner_int - outer_int]}
+    end
+  end
+
+  def check_diagonal_win
+    winning_string = ""
+    4.times { winning_string += "#{@player.piece}" }
+    diag_offset_columns.each do |array|
+      @player.winner = true if array.join.include?(winning_string)
+    end
+    diag_offset_rows.each do |array|
+      @player.winner = true if array.join.include?(winning_string)
+    end
   end
 end
