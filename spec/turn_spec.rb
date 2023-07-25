@@ -157,7 +157,7 @@ RSpec.describe Turn do
   end
 
   describe "#check_diagonal_win" do 
-    it "checks for horizontal wins" do 
+    it "checks for diagonal wins NW to SE - 4 in a row on a diag" do 
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
@@ -175,27 +175,50 @@ RSpec.describe Turn do
       
       expect(player.winner).to be true
     end
-  end
-  
-  describe "#diag_offset_columns" do 
-    it "returns an array of all diagonals from columns 1 - 3" do 
+
+    it "checks for diagonal wins SW to NE" do
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
+      
+      turn.check_diagonal_win
+      
+      expect(player.winner).to be false
+
+      board.board_grid[5][0].set_state("x")
+      board.board_grid[4][1].set_state("x")
+      board.board_grid[3][2].set_state("x")
+      board.board_grid[2][3].set_state("x")
+
+      turn.check_diagonal_win
+      
+      expect(player.winner).to be true
+    end
+  end
+  
+  describe "#diag_offset_columns" do 
+    it "returns an array of all diagonals offset (by column) by a given range" do 
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+
+      board_states = turn.get_board_as_states
     
-      expect(turn.diag_offset_columns.size).to eq(3)
-      expect(turn.diag_offset_columns).to all be_a Array 
+      expect(turn.diag_offset_columns(board_states, (1..3)).size).to eq(3)
+      expect(turn.diag_offset_columns(board_states, (1..3))).to all be_a Array 
     end
   end
 
   describe "#diag_offset_rows" do 
-    it "returns an array of all diagonals from rows 0 - 2" do 
+    it "returns an array of all diagonals offset (by row) by a given range" do 
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
+
+      board_states = turn.get_board_as_states
     
-      expect(turn.diag_offset_rows.size).to eq(3)
-      expect(turn.diag_offset_rows).to all be_a Array 
+      expect(turn.diag_offset_rows(board_states, (0..2)).size).to eq(3)
+      expect(turn.diag_offset_rows(board_states, (0..2))).to all be_a Array 
     end
   end
 
@@ -251,7 +274,6 @@ RSpec.describe Turn do
       board.board_grid[2][2].set_state("x")
 
       expect(turn.get_board_as_states[2]).to include('x')
-      # require 'pry';binxding.pry
     end
   end
 end

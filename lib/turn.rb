@@ -53,8 +53,6 @@ class Turn
   def set_cell
     index_array = find_lowest_cell_in_column
     @board.board_grid[index_array[0]][index_array[1]].set_state(@player.piece)
-    # check_horizontal_win(index_array[0], index_array[1])
-    # check_vertical_win(index_array[0], index_array[1])
   end
   
   def find_lowest_cell_in_column
@@ -102,16 +100,14 @@ class Turn
   end
 
   #range is acting as way to create index positions to check index positions on our board
-  def diag_offset_columns 
-    board = get_board_as_states
-    (1..3).map do |outer_int|
+  def diag_offset_columns(board, range)
+    range.map do |outer_int|
       (outer_int..(board[0].size - 1)).collect {|inner_int| board[inner_int - outer_int][inner_int]}
     end
   end
 
-  def diag_offset_rows
-    board = get_board_as_states
-    (0..2).map do |outer_int|
+  def diag_offset_rows(board, range)
+    range.map do |outer_int|
       (outer_int..(board.size - 1)).collect {|inner_int| board[inner_int][inner_int - outer_int]}
     end
   end
@@ -119,10 +115,18 @@ class Turn
   def check_diagonal_win
     winning_string = ""
     4.times { winning_string += "#{@player.piece}" }
-    diag_offset_columns.each do |array|
+    board_states = get_board_as_states
+    board_rotated = board_states.transpose.reverse
+    diag_offset_columns(board_states, (1..3)).each do |array|
       @player.winner = true if array.join.include?(winning_string)
     end
-    diag_offset_rows.each do |array|
+    diag_offset_rows(board_states, (0..2)).each do |array|
+      @player.winner = true if array.join.include?(winning_string)
+    end
+    diag_offset_columns(board_rotated, (0..2)).each do |array|
+      @player.winner = true if array.join.include?(winning_string)
+    end
+    diag_offset_rows(board_rotated, (1..3)).each do |array|
       @player.winner = true if array.join.include?(winning_string)
     end
   end
