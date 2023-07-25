@@ -26,6 +26,10 @@ class GameController
     player = Player.new
     computer = Computer.new
     # puts "Welcome to Connect 4!!!"
+    puts "Enter Player 1 name"
+    player_one_name = gets.chomp
+    player.get_player_name(player_one_name)
+    puts 
     puts "Enter P to start a game, or Q to quit."
     user_input = gets.chomp.downcase
     while user_input != "p" && user_input != "q"
@@ -55,7 +59,7 @@ class GameController
       turn_counter += 1
     end
     if player.winner
-      puts "Player wins!"
+      puts "#{player.name} wins!"
     elsif computer.winner
       puts "Computer wins!"
     elsif board.board_is_full?
@@ -66,9 +70,17 @@ class GameController
 
   def start_game_two_players
     board = Board.new
-    player = Player.new
+    player_1 = Player.new
     player_2 = PlayerTwo.new
     # puts "Welcome to Connect 4!!!"
+    puts "Enter Player 1 name"
+    player_one_name = gets.chomp
+    player_1.get_player_name(player_one_name)
+    puts 
+    puts "Enter Player 2 name"
+    player_two_name = gets.chomp
+    player_2.get_player_name(player_two_name)
+    puts 
     puts "Enter P to start a game, or Q to quit."
     user_input = gets.chomp.downcase
     while user_input != "p" && user_input != "q"
@@ -78,13 +90,13 @@ class GameController
     end
     if user_input == "p"
       puts
-      puts "Player one goes first!"
+      puts "#{player_1.name} goes first!"
       board.render_board
     else
       exit()
     end
     turn_counter = 1
-    while !board.board_is_full? && !player.winner && !player_2.winner
+    while !board.board_is_full? && !player_1.winner && !player_2.winner
       if turn_counter % 2 == 0
         turn = Turn.new(player_2, board)
         turn.get_move
@@ -93,7 +105,7 @@ class GameController
         board.render_board
         turn_counter += 1
       else
-        turn = Turn.new(player, board)
+        turn = Turn.new(player_1, board)
         turn.get_move
         turn.set_cell
         turn.check_win_conditions
@@ -101,10 +113,10 @@ class GameController
         turn_counter += 1
       end
     end
-    if player.winner
-      puts "Player 1 wins!"
+    if player_1.winner
+      puts "#{player_1.name} wins!"
     elsif player_2.winner
-      puts "Player 2 wins!"
+      puts "#{player_2.name} wins!"
     elsif board.board_is_full?
       puts "Draw!"
     end
