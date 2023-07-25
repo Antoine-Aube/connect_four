@@ -161,20 +161,41 @@ RSpec.describe Turn do
       player = Player.new
       board = Board.new
       turn = Turn.new(player, board)
-      turn.move = "c" #may not need this
       
       turn.check_diagonal_win
-
+      
       expect(player.winner).to be false
-
+      
       board.board_grid[0][0].set_state("x")
       board.board_grid[1][1].set_state("x")
       board.board_grid[2][2].set_state("x")
       board.board_grid[3][3].set_state("x")
-
+      
       turn.check_diagonal_win
-
+      
       expect(player.winner).to be true
+    end
+  end
+  
+  describe "#diag_offset_columns" do 
+    it "returns an array of all diagonals from columns 1 - 3" do 
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+    
+      expect(turn.diag_offset_columns.size).to eq(3)
+      expect(turn.diag_offset_columns).to all be_a Array 
+    end
+  end
+
+  describe "#diag_offset_rows" do 
+    it "returns an array of all diagonals from rows 0 - 2" do 
+      player = Player.new
+      board = Board.new
+      turn = Turn.new(player, board)
+    
+      expect(turn.diag_offset_rows.size).to eq(3)
+      expect(turn.diag_offset_rows).to all be_a Array 
     end
   end
 
@@ -230,6 +251,7 @@ RSpec.describe Turn do
       board.board_grid[2][2].set_state("x")
 
       expect(turn.get_board_as_states[2]).to include('x')
+      # require 'pry';binxding.pry
     end
   end
 end
