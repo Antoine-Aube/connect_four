@@ -2,10 +2,9 @@ require_relative 'board'
 require_relative 'turn'
 require_relative 'player'
 require_relative 'computer'
-require_relative 'player_two'
 
 class GameController
-  def choose_game_type
+  def start_game
     puts "Welcome to Connect 4!!!"
     puts "Enter P to start a game, or Q to quit."
     user_input = gets.chomp.downcase
@@ -24,30 +23,30 @@ class GameController
     end
     
     if user_input == "1"
-      start_game_one_player
+      one_player_game
     else
-      start_game_two_players
+      two_player_game
     end
   end
 
-  def start_game_one_player
+  def one_player_game
     board = Board.new
-    player = Player.new
+    player_1 = Player.new("X")
     computer = Computer.new
     puts "Enter Player 1 name"
     player_one_name = gets.chomp
-    player.get_player_name(player_one_name)
+    player_1.get_player_name(player_one_name)
     puts 
     board.render_board
     turn_counter = 1
-    while !board.board_is_full? && !player.winner && !computer.winner
+    while !board.board_is_full? && !player_1.winner && !computer.winner
       if turn_counter % 2 == 0
         turn = Turn.new(computer, board)
         turn.get_move
         turn.set_cell
         turn.check_win_conditions
       else
-        turn = Turn.new(player, board)
+        turn = Turn.new(player_1, board)
         turn.get_move
         turn.set_cell
         turn.check_win_conditions
@@ -55,23 +54,23 @@ class GameController
       board.render_board
       turn_counter += 1
     end
-    if player.winner
-      puts "#{player.name} wins! \n"
-      choose_game_type
+    if player_1.winner
+      puts "#{player_1.name} wins! \n"
+      start_game
     elsif computer.winner
       puts "Computer wins! \n"
-      choose_game_type
+      start_game
     elsif board.board_is_full?
       puts "Draw! \n"
-      choose_game_type
+      start_game
     end
   end
 
 
-  def start_game_two_players
+  def two_player_game
     board = Board.new
-    player_1 = Player.new
-    player_2 = PlayerTwo.new
+    player_1 = Player.new("X")
+    player_2 = Player.new("O")
     puts "Enter Player 1 name"
     player_one_name = gets.chomp
     player_1.get_player_name(player_one_name)
@@ -101,13 +100,13 @@ class GameController
     end
     if player_1.winner
       puts "#{player_1.name} wins!\n"
-      choose_game_type
+      start_game
     elsif player_2.winner
       puts "#{player_2.name} wins!\n"
-      choose_game_type
+      start_game
     elsif board.board_is_full?
       puts "Draw!"
-      choose_game_type
+      start_game
     end
   end
 end 

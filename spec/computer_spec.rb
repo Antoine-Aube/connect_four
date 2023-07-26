@@ -12,7 +12,7 @@ RSpec.describe Computer do
 
     it "has a piece that is o" do 
 
-      expect(@computer.piece).to eq("o")
+      expect(@computer.piece).to eq("O")
     end 
   end 
 

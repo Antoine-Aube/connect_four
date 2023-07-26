@@ -18,7 +18,7 @@ RSpec.describe Board do
 
   describe "#board_is_full" do 
     it "returns true if the first row is full" do 
-      player = Player.new
+      player = Player.new("X")
       board = Board.new
       turn = Turn.new(player, board)
 

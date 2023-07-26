@@ -3,7 +3,7 @@ class Computer
   attr_accessor :winner
   
   def initialize
-    @piece = "o"
+    @piece = "O"
     @winner = false
   end
 end

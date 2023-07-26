@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Player  do 
   before do 
-    @player_1 = Player.new
+    @player_1 = Player.new("X")
   end
 
   describe "#initialize" do 
@@ -10,8 +10,8 @@ RSpec.describe Player  do
       expect(@player_1).to be_a Player
     end
 
-    it "has a piece to play that is x" do 
-      expect(@player_1.piece).to eq("x")
+    it "has a piece to play" do 
+      expect(@player_1.piece).to eq("X")
     end
 
   end
