@@ -3,8 +3,8 @@ class Player
   attr_reader :piece, :name
   attr_accessor :winner
   
-  def initialize
-    @piece = "x"
+  def initialize(piece)
+    @piece = piece
     @winner = false
     @name = nil
   end
