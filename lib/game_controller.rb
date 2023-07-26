@@ -4,7 +4,7 @@ require_relative 'player'
 require_relative 'computer'
 
 class GameController
-  def choose_game_type
+  def start_game
     puts "Welcome to Connect 4!!!"
     puts "Enter P to start a game, or Q to quit."
     user_input = gets.chomp.downcase
@@ -23,13 +23,13 @@ class GameController
     end
     
     if user_input == "1"
-      start_game_one_player
+      one_player_game
     else
-      start_game_two_players
+      two_player_game
     end
   end
 
-  def start_game_one_player
+  def one_player_game
     board = Board.new
     player_1 = Player.new("X")
     computer = Computer.new
@@ -56,18 +56,18 @@ class GameController
     end
     if player_1.winner
       puts "#{player_1.name} wins! \n"
-      choose_game_type
+      start_game
     elsif computer.winner
       puts "Computer wins! \n"
-      choose_game_type
+      start_game
     elsif board.board_is_full?
       puts "Draw! \n"
-      choose_game_type
+      start_game
     end
   end
 
 
-  def start_game_two_players
+  def two_player_game
     board = Board.new
     player_1 = Player.new("X")
     player_2 = Player.new("O")
@@ -100,13 +100,13 @@ class GameController
     end
     if player_1.winner
       puts "#{player_1.name} wins!\n"
-      choose_game_type
+      start_game
     elsif player_2.winner
       puts "#{player_2.name} wins!\n"
-      choose_game_type
+      start_game
     elsif board.board_is_full?
       puts "Draw!"
-      choose_game_type
+      start_game
     end
   end
 end 
