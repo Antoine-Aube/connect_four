@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require "connect_four_2307"
-require './lib/cell'
-require './lib/board'
-require './lib/game_controller'
-require './lib/player'
-require './lib/turn'
-require './lib/computer'
+require './lib/connect_four_2307/cell'
+require './lib/connect_four_2307/board'
+require './lib/connect_four_2307/game_controller'
+require './lib/connect_four_2307/player'
+require './lib/connect_four_2307/turn'
+require './lib/connect_four_2307/computer'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
