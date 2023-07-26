@@ -2,7 +2,6 @@ require_relative 'board'
 require_relative 'turn'
 require_relative 'player'
 require_relative 'computer'
-require_relative 'player_two'
 
 class GameController
   def choose_game_type

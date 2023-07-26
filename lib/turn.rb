@@ -14,10 +14,7 @@ class Turn
 
   def get_move
     if @player.instance_of?(Player)
-      puts "#{@player.name} place a piece in column A-G \n"
-      move = validate_player_move(gets.chomp.downcase)
-    elsif @player.instance_of?(PlayerTwo)
-      puts "#{@player.name} Place a piece in column A-G \n"
+      puts "#{@player.name}'s turn: place a piece in column A-G \n"
       move = validate_player_move(gets.chomp.downcase)
     else
       move = get_computer_move
@@ -27,7 +24,7 @@ class Turn
   
   def validate_player_move(move)
     while !@columns.include?(move) || column_is_full?(move)
-      puts "Oops, that's an invalid move, or a full column. Please select column A-G!"
+      puts "Oops, that's an invalid move or a full column. Please select column A-G!"
       move = gets.chomp.downcase
     end
     move
