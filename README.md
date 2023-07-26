@@ -1,4 +1,4 @@
-# ** CONNECT FOUR - PAIR PROJECT - TURING - MOD1 **
+# **CONNECT FOUR - PAIR PROJECT - TURING - MOD1**
 ![funny image](https://i.kym-cdn.com/photos/images/original/001/335/681/bac.jpg)
 ## **Overview:**
 
