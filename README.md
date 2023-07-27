@@ -1,5 +1,5 @@
 # **CONNECT FOUR - PAIR PROJECT - TURING - MOD1**
-![funny image](https://i.kym-cdn.com/photos/images/original/001/335/681/bac.jpg)
+
 ## **Overview:**
 
 This project explores creating a version of the classic game Connect Four as a CLI game within your computer terminal. A specific requirement of this project was to develop all code given only written instruction without code prompts from an interaction pattern. As a pair, our team was able to design architecture for this application and implement that design in our codebase to create a functioning and interactive game. The project explores the concept of abstraction in OOP through creation of complex, logic based methods that are applied to a gameflow found in the game controller class. 
